@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Portfolio | Gabriel M. Agsamosam</title>
+    <title>Student Portfolio | Christian Benedict G. Clamor /title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css?v=4.0" />
 
@@ -19,7 +19,7 @@
     <header id="main-header">
         <div class="container">
             <nav>
-                <span class="logo">Gabriel Agsamosam</span>
+                <span class="logo">Christian Clamor</span>
                 <!-- Hamburger Button (visible on mobile) -->
                 <button class="hamburger" aria-label="Open menu" aria-expanded="false">
                     <span class="hamburger-line"></span>
@@ -135,18 +135,69 @@
         </section>
 
 
-        <!-- TECH STACK SECTION -->
-        <section id="tech-stack" class="fade-in-section">
-            <div class="container">
-                <h2 class="section-title">Tech Stack</h2>
-                <p class="tech-stack-intro">Tools I use to build practical software, from responsive interfaces to real-time IoT systems.</p>
-                <div id="tech-stack-featured" class="tech-stack-featured" aria-label="Core technologies"></div>
-                <div id="tech-stack-grid" class="tech-stack-grid" aria-live="polite">
-                    <!-- Populated by script.js -->
-                </div>
-            </div>
-        </section>
+<!-- TECH STACK SECTION -->
+<section id="tech-stack" class="fade-in-section">
+    <div class="container">
+        <h2 class="section-title">Tech Stack</h2>
+        <p class="tech-stack-intro">Tools I use to build practical software, from responsive interfaces to real-time IoT systems.</p>
+        
+        <!-- Tech Stack Tabs -->
+        <div class="tabs" role="tablist" aria-label="Tech stack categories">
+            <button class="tab-btn active" id="tab-languages" role="tab" aria-selected="true" aria-controls="panel-languages">
+                Languages
+            </button>
+            <button class="tab-btn" id="tab-frontend" role="tab" aria-selected="false" aria-controls="panel-frontend" tabindex="-1">
+                Frontend
+            </button>
+            <button class="tab-btn" id="tab-backend" role="tab" aria-selected="false" aria-controls="panel-backend" tabindex="-1">
+                Backend & Database
+            </button>
+            <button class="tab-btn" id="tab-iot" role="tab" aria-selected="false" aria-controls="panel-iot" tabindex="-1">
+                Hardware & IoT
+            </button>
+            <button class="tab-btn" id="tab-tools" role="tab" aria-selected="false" aria-controls="panel-tools" tabindex="-1">
+                Tools & Platforms
+            </button>
+        </div>
 
+        <!-- Panel 1: Languages -->
+        <div class="tab-panel active" id="panel-languages" role="tabpanel" aria-labelledby="tab-languages">
+            <div class="tech-cards-grid" id="tech-cards-languages">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Panel 2: Frontend -->
+        <div class="tab-panel" id="panel-frontend" role="tabpanel" aria-labelledby="tab-frontend" hidden>
+            <div class="tech-cards-grid" id="tech-cards-frontend">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Panel 3: Backend & Database -->
+        <div class="tab-panel" id="panel-backend" role="tabpanel" aria-labelledby="tab-backend" hidden>
+            <div class="tech-cards-grid" id="tech-cards-backend">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Panel 4: Hardware & IoT -->
+        <div class="tab-panel" id="panel-iot" role="tabpanel" aria-labelledby="tab-iot" hidden>
+            <div class="tech-cards-grid" id="tech-cards-iot">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Panel 5: Tools & Platforms -->
+        <div class="tab-panel" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools" hidden>
+            <div class="tech-cards-grid" id="tech-cards-tools">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <p class="tech-stack-note">Focused on practical systems that connect clean interfaces, reliable data, and real-world devices.</p>
+    </div>
+</section>
 
         <!-- CREDENTIALS / PROFESSIONAL DEVELOPMENT SECTION -->
         <section id="credentials" class="fade-in-section">

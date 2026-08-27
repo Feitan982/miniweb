@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const hamburger = document.querySelector('.hamburger');
 	const themeToggle = document.querySelector('#themeToggle');
 
+	// Mobile navigation
 	hamburger?.addEventListener('click', () => {
 		const open = navLinks.classList.toggle('open');
 		hamburger.setAttribute('aria-expanded', String(open));
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		hamburger?.setAttribute('aria-expanded', 'false');
 	}));
 
+	// Theme toggle
 	const savedTheme = localStorage.getItem('portfolio-theme');
 	if (savedTheme === 'dark') body.classList.add('dark-theme');
 	themeToggle?.addEventListener('click', () => {
@@ -21,24 +23,99 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.querySelector('#themeToggleText').textContent = dark ? 'Light' : 'Theme';
 	});
 
-	const techCategories = [
-		['Language', 'Python'], ['Language', 'JavaScript'], ['Language', 'C++'], ['Language', 'C#'], ['Language', 'VB.NET'],
-		['Frontend', 'HTML5'], ['Frontend', 'CSS3'], ['Frontend', 'Responsive UI/UX'], ['Frontend', 'Tailwind CSS'],
-		['Backend', 'FastAPI'], ['Backend', 'Firebase'], ['Backend', 'WebSockets'],
-		['Database', 'SQLite'], ['Database', 'Firebase Firestore'],
-		['Hardware & IoT', 'ESP32'], ['Hardware & IoT', 'AMG8833'], ['Hardware & IoT', 'GSM'], ['Hardware & IoT', 'Arduino IDE'],
-		['Tools & Platforms', 'Git'], ['Tools & Platforms', 'PWA'], ['Tools & Platforms', 'AI / NLP'], ['Tools & Platforms', 'Chart.js']
-	];
-	document.querySelector('#tech-stack-featured').innerHTML = `
-		<div class="tech-table-wrap">
-			<table class="tech-table">
-				<caption class="sr-only">Gabriel's technology categories</caption>
-				<thead><tr><th scope="col">Area</th><th scope="col">Technology</th></tr></thead>
-				<tbody>${techCategories.map(([category, tools]) => `<tr><th scope="row">${category}</th><td>${tools}</td></tr>`).join('')}</tbody>
-			</table>
-		</div>`;
-	document.querySelector('#tech-stack-grid').innerHTML = '<p class="tech-stack-note">Focused on practical systems that connect clean interfaces, reliable data, and real-world devices.</p>';
+	// Tech stack data organized by category
+	const techStackData = {
+		languages: [
+			{ name: 'Python', description: 'Scripting, automation, and backend development', icon: '🐍' },
+			{ name: 'JavaScript', description: 'Interactive web applications and real-time features', icon: '⚡' },
+			{ name: 'C++', description: 'System programming and performance-critical applications', icon: '⚙️' },
+			{ name: 'C#', description: 'Desktop applications and game development', icon: '🎮' },
+			{ name: 'VB.NET', description: 'Windows forms and business applications', icon: '💼' }
+		],
+		frontend: [
+			{ name: 'HTML5', description: 'Semantic markup and web structure', icon: '📄' },
+			{ name: 'CSS3', description: 'Responsive design and modern styling', icon: '🎨' },
+			{ name: 'Responsive UI/UX', description: 'Mobile-first and accessible interfaces', icon: '📱' },
+			{ name: 'Tailwind CSS', description: 'Utility-first CSS framework for rapid development', icon: '🌊' }
+		],
+		backend: [
+			{ name: 'FastAPI', description: 'High-performance Python web framework', icon: '🚀' },
+			{ name: 'Firebase', description: 'Real-time database and authentication', icon: '🔥' },
+			{ name: 'WebSockets', description: 'Real-time bidirectional communication', icon: '🔄' },
+			{ name: 'SQLite', description: 'Lightweight relational database', icon: '💾' },
+			{ name: 'Firebase Firestore', description: 'NoSQL cloud database for scalable apps', icon: '☁️' }
+		],
+		iot: [
+			{ name: 'ESP32', description: 'Microcontroller for IoT projects', icon: '🔌' },
+			{ name: 'AMG8833', description: 'Thermal camera sensor for temperature monitoring', icon: '🌡️' },
+			{ name: 'GSM', description: 'Cellular communication for alerts', icon: '📡' },
+			{ name: 'Arduino IDE', description: 'Development environment for embedded systems', icon: '🛠️' }
+		],
+		tools: [
+			{ name: 'Git', description: 'Version control and collaboration', icon: '📦' },
+			{ name: 'PWA', description: 'Progressive web apps with offline support', icon: '📲' },
+			{ name: 'AI / NLP', description: 'Intelligent features and natural language processing', icon: '🤖' },
+			{ name: 'Chart.js', description: 'Data visualization and interactive charts', icon: '📊' }
+		]
+	};
 
+	// Create icon for tech cards
+	function createTechIcon(emoji) {
+		return `<span class="tech-card-icon">${emoji}</span>`;
+	}
+
+	// Render tech stack cards
+	function renderTechCards(containerId, category) {
+		const container = document.getElementById(containerId);
+		if (!container) return;
+		
+		const cards = techStackData[category] || [];
+		container.innerHTML = cards.map(tech => `
+			<div class="tech-card">
+				<div class="tech-card-header">
+					${createTechIcon(tech.icon)}
+					<h3>${tech.name}</h3>
+				</div>
+				<p>${tech.description}</p>
+				<span class="tech-card-tag">${category.charAt(0).toUpperCase() + category.slice(1)}</span>
+			</div>
+		`).join('');
+	}
+
+	// Render all technologies table
+	function renderAllTechTable() {
+		const tbody = document.getElementById('tech-table-body-all');
+		if (!tbody) return;
+		
+		const allTech = [];
+		const categoryNames = {
+			languages: 'Languages',
+			frontend: 'Frontend',
+			backend: 'Backend & Database',
+			iot: 'Hardware & IoT',
+			tools: 'Tools & Platforms'
+		};
+		
+		Object.keys(techStackData).forEach(category => {
+			techStackData[category].forEach(tech => {
+				allTech.push({ category: categoryNames[category], name: tech.name });
+			});
+		});
+		
+		tbody.innerHTML = allTech.map(tech => 
+			`<tr><th scope="row">${tech.category}</th><td>${tech.name}</td></tr>`
+		).join('');
+	}
+
+	// Initialize tech stack
+	renderAllTechTable();
+	renderTechCards('tech-cards-languages', 'languages');
+	renderTechCards('tech-cards-frontend', 'frontend');
+	renderTechCards('tech-cards-backend', 'backend');
+	renderTechCards('tech-cards-iot', 'iot');
+	renderTechCards('tech-cards-tools', 'tools');
+
+	// Particle canvas animation
 	const canvas = document.querySelector('#particle-canvas');
 	const context = canvas?.getContext('2d');
 	if (canvas && context && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -106,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		window.requestAnimationFrame(drawCanvas);
 	}
 
+	// Tab switching for credentials and tech stack
 	document.querySelectorAll('.tabs, .community-tabs').forEach((tabList) => {
 		tabList.querySelectorAll('[role="tab"]').forEach((tab) => tab.addEventListener('click', () => {
 			const group = tabList.parentElement;
@@ -122,9 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		}));
 	});
 
+	// Modal system
 	const modal = (id) => document.querySelector(id);
 	const openModal = (element) => { element?.classList.add('open'); body.classList.add('modal-open'); };
 	const closeModal = (element) => { element?.classList.remove('open'); body.classList.remove('modal-open'); };
+	
+	// Email modal
 	const emailModal = modal('#emailModal');
 	document.querySelector('#openEmailModal')?.addEventListener('click', () => openModal(emailModal));
 	document.querySelectorAll('.email-modal-close, #cancelBtn').forEach((button) => button.addEventListener('click', () => closeModal(emailModal)));
@@ -137,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		closeModal(emailModal);
 	});
 
+	// Project modal
 	const projectModal = modal('#projectModal');
 	const projects = {
 		pos: ['POS And Inventory System', 'Role-based access, sales dashboard, inventory control, and database backup workflows built with VB.NET and SQLite.'],
@@ -156,8 +238,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.querySelectorAll('.modal-overlay').forEach((overlay) => overlay.addEventListener('click', (event) => {
 		if (event.target === overlay) closeModal(overlay);
 	}));
-	document.addEventListener('keydown', (event) => { if (event.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(closeModal); });
+	document.addEventListener('keydown', (event) => { 
+		if (event.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(closeModal); 
+	});
 
+	// Portfolio assistant chatbot
 	const assistantReplies = [
 		['projects', 'Gabriel has built a VB.NET POS system, the ThermE.Y.E. IoT monitor, MyBudget-Finance, and AcadHub Suite.'],
 		['therm', 'ThermE.Y.E. combines an ESP32, AMG8833 thermal sensors, Firebase, WebSockets, and GSM alerts for real-time monitoring.'],
@@ -177,18 +262,58 @@ document.addEventListener('DOMContentLoaded', () => {
 		chatMessages.scrollTop = chatMessages.scrollHeight;
 	};
 	const answer = (question) => assistantReplies.find(([keyword]) => question.toLowerCase().includes(keyword))?.[1] || 'That is a thoughtful question. Ask me about Gabriel\'s projects, technologies, experience, services, or how to get in touch.';
-	const ask = (question) => { if (!question.trim()) return; addMessage(question, true); window.setTimeout(() => addMessage(answer(question)), 350); };
-	chatForm?.addEventListener('submit', (event) => { event.preventDefault(); const input = chatForm.message; ask(input.value); input.value = ''; });
+	const ask = (question) => { 
+		if (!question.trim()) return; 
+		addMessage(question, true); 
+		window.setTimeout(() => addMessage(answer(question)), 350); 
+	};
+	chatForm?.addEventListener('submit', (event) => { 
+		event.preventDefault(); 
+		const input = chatForm.message; 
+		ask(input.value); 
+		input.value = ''; 
+	});
 	document.querySelectorAll('.chat-prompt').forEach((prompt) => prompt.addEventListener('click', () => ask(prompt.textContent)));
-	document.querySelector('#clearChatBtn')?.addEventListener('click', () => { chatMessages.innerHTML = ''; addMessage('Chat cleared. What would you like to know about Gabriel\'s work?'); });
+	document.querySelector('#clearChatBtn')?.addEventListener('click', () => { 
+		chatMessages.innerHTML = ''; 
+		addMessage('Chat cleared. What would you like to know about Gabriel\'s work?'); 
+	});
 
+	// Scroll animations
 	const sections = document.querySelectorAll('.fade-in-section');
-	const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) observer.unobserve(entry.target); entry.target.classList.toggle('is-visible', entry.isIntersecting); }), { threshold: .12 });
+	const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { 
+		if (entry.isIntersecting) observer.unobserve(entry.target); 
+		entry.target.classList.toggle('is-visible', entry.isIntersecting); 
+	}), { threshold: .12 });
 	sections.forEach((section) => observer.observe(section));
+	
+	// Back to top button
 	const backToTop = document.querySelector('#backToTop');
 	window.addEventListener('scroll', () => backToTop?.classList.toggle('visible', window.scrollY > 500), { passive: true });
 	backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+	// Profile image fallback
 	const profile = document.querySelector('.profile-image');
-	profile?.addEventListener('error', () => { profile.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23e06b3c"/%3E%3Ctext x="200" y="225" text-anchor="middle" font-family="sans-serif" font-size="110" font-weight="700" fill="white"%3EGA%3C/text%3E%3C/svg%3E'; });
+	profile?.addEventListener('error', () => { 
+		profile.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"%3E%3Crect width="400" height="400" fill="%23e06b3c"/%3E%3Ctext x="200" y="225" text-anchor="middle" font-family="sans-serif" font-size="110" font-weight="700" fill="white"%3EGA%3C/text%3E%3C/svg%3E'; 
+	});
+
+	// Initialize Firebase (add your config)
+	// TODO: Add your Firebase configuration here
+	/*
+	const firebaseConfig = {
+		apiKey: "YOUR_API_KEY",
+		authDomain: "YOUR_PROJECT.firebaseapp.com",
+		projectId: "YOUR_PROJECT_ID",
+		storageBucket: "YOUR_PROJECT.appspot.com",
+		messagingSenderId: "YOUR_SENDER_ID",
+		appId: "YOUR_APP_ID"
+	};
+	firebase.initializeApp(firebaseConfig);
+	const db = firebase.firestore();
+	*/
+
+	// Community chat functionality (requires Firebase)
+	// TODO: Add community chat and game world logic here
+	
 });
